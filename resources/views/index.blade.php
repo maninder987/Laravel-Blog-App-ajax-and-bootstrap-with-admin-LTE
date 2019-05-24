@@ -6,41 +6,48 @@
 @section('content')
 	<div id="fh5co-main">
 
+@if($posts)
 
+<?php $counter=1; ?>
+   @foreach($posts as $post)
+	 <?php
+
+			if($counter%2 ==0)
+		   {
+	  ?>
 		<div id="fh5co-portfolio">
 			<div class="fh5co-portfolio-item ">
-				<div class="fh5co-portfolio-figure animate-box" style="background-image: url(frontend/images/work_1.jpg);"></div>
+				<div class="fh5co-portfolio-figure animate-box"  style="background-image: url({{ $post['picture'] }}); background-size:contain;"></div>
 				<div class="fh5co-portfolio-description">
-					<h2>Project First</h2>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					<p><a href="#" class="btn btn-primary">Read the casetudy</a></p>
-				</div>
-			</div>
-			<div class="fh5co-portfolio-item fh5co-img-right">
-				<div class="fh5co-portfolio-figure animate-box" style="background-image: url(frontend/images/work_2.jpg);"></div>
-				<div class="fh5co-portfolio-description">
-					<h2>Project Second</h2>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					<p><a href="#" class="btn btn-primary">Read the casetudy</a></p>
-				</div>
-			</div>
-			<div class="fh5co-portfolio-item ">
-				<div class="fh5co-portfolio-figure animate-box" style="background-image: url(frontend/images/work_3.jpg);"></div>
-				<div class="fh5co-portfolio-description">
-					<h2>Project Third</h2>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					<p><a href="#" class="btn btn-primary">Read the casetudy</a></p>
-				</div>
-			</div>
-			<div class="fh5co-portfolio-item fh5co-img-right">
-				<div class="fh5co-portfolio-figure animate-box" style="background-image: url(frontend/images/work_4.jpg);"></div>
-				<div class="fh5co-portfolio-description">
-					<h2>Project Fourth</h2>
-					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					<p><a href="#" class="btn btn-primary">Read the casetudy</a></p>
+					<h2>{{ $post['title'] }}</h2>
+					<span><small>Author:</small></span>
+					<p><?php echo strip_tags($post['content']);?></p>
+					<p><a href="#" class="btn btn-primary">Read More <?php if(Auth::user()){ echo ucfirst(Auth::user()->name); } ?></a></p>
 				</div>
 			</div>
 		</div>
+		<?php
+	}else if($counter%2 != 0 ){
+			?>
+			<div id="fh5co-portfolio">
+			<div class="fh5co-portfolio-item fh5co-img-right">
+				<div class="fh5co-portfolio-figure animate-box" style="background-image: url({{ $post['picture'] }}); background-size:contain;">
+				</div>
+
+				<div class="fh5co-portfolio-description">
+					<h2>{{ $post['title'] }}</h2>
+					<span><small>Author:</small></span>
+					<p><?php echo strip_tags($post['content']);?></p>
+					<p><a href="#" class="btn btn-primary">Read More <?php if(Auth::user()){ echo ucfirst(Auth::user()->name); } ?></a></p>
+				</div>
+			</div>
+		</div>
+			<?php
+	}
+		$counter++; ?>
+   @endforeach
+@endif
+
 
 		<div id="fh5co-team">
 			<div class="container">

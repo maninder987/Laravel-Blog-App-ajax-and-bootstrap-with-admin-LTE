@@ -15,21 +15,41 @@
       Route::get('/home', 'HomeController@index')->name('home');
 
 
-      Route::get('/', function () {
-          return view('index');
-      });
+      // Route::get('/', function () {
+      //     return view('index');
+      // });
+
+      //Displaying posts to front end
+      Route::get("/",[
+        'uses'=>'FrontpageController@index',
+        'as'=>'home'
+      ]);
 
       Route::get('/blog',[
         'uses'=>'BlogController@index',
         'as'=>'blog'
       ]);
-//
-Route::group( ['middleware'=>'auth'], function(){
+
+
+//'middleware' => 'admin'
+Route::group(['middleware' => 'auth'], function(){
 
       //route for adding form for new post
       Route::get('/post/addpost',[
           'uses'=>'PostController@index',
           'as'=>'admin.addpost'
+      ]);
+
+      //Adding posts using ajaxupload
+      Route::post("/post/store",[
+        'uses'=>'PostController@store',
+        'as'=>'post.store'
+      ]);
+
+      //Adding posts using ajaxupload
+      Route::get("/post/create",[
+        'uses'=>'PostController@create',
+        'as'=>'post.create'
       ]);
 
 
@@ -63,5 +83,14 @@ Route::group( ['middleware'=>'auth'], function(){
         'uses'=>'CategoryController@update',
         'as'=>'admin.upcat'
       ]);
+
+      //delete category
+      Route::get("/deletecategory/{id}",[
+        'uses'=>'CategoryController@destroy',
+        'as'=>'admin.deletecategory'
+      ]);
+
+
+
 
  });

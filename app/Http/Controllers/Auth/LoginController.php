@@ -1,10 +1,15 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
+
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Socialite;
+use Auth;
+use App\User;
+use Exception;
+use Validator;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 class LoginController extends Controller
 {
     /*
@@ -36,4 +41,27 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function redirectTo(){
+      // User role
+      $role = Auth::user()->role;
+
+      // Check user role
+      switch ($role) {
+          case 'admin':
+                  return '/home';
+              break;
+          case 'Employee':
+                  return '/projects';
+              break;
+          default:
+                  return '/';
+              break;
+      }
+  }
+
+
+
+
+
 }

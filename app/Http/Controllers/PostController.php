@@ -1,8 +1,20 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Category;
+
+use App\Post;
+
+use Validator;
+
+use Session;
+
+use Illuminate\Support\Facades\Input;
+
+use Illuminate\Support\Facades\File;
+
 
 class PostController extends Controller
 {
@@ -13,7 +25,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.post.addpost');
+        $category = Category::all();
+        return view('admin.post.addpost')->with('categories',$category);
     }
 
     /**
@@ -22,8 +35,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   $post = Post::all();
+        return view('admin.post.display')->with('posts',$post);
     }
 
     /**
@@ -34,7 +47,27 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if ($request->hasFile('pimage')) {
+             $post = new Post;
+             $post->title = $request->Input('title');
+             $post->content = $request->Input("content");
+             $post->category =   $request->Input('category');
+             $image = $request->file('pimage');
+             $post->tabs = $request->tags;
+             $post->author = $request->Input('authorid');
+
+
+
+             $image_name = time().'.'.$image->getClientOriginalExtension();
+             $destinationPath = public_path('/images');
+             $image->move($destinationPath, $image_name);
+             $post->picture='images/'.$image_name;
+             $post->save();
+
+             echo"<span class='alert alert-success'>Post Published Successfully</span>";
+        }
+
     }
 
     /**

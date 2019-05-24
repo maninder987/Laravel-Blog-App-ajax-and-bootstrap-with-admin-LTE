@@ -44,9 +44,6 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-
-
-
          if ((Category::where('category', '=', $request->category))->count() > 0){
               echo "<span class='alert alert-danger'>Category Already Exists</span>";
          }else{
@@ -61,11 +58,6 @@ class CategoryController extends Controller
                  echo "<span class='alert alert-danger'>Failed ,Contact Admin</span>";
                }
          }
-
-
-
-
-
     }
 
     /**
@@ -116,6 +108,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+          DB::table('categories')
+              ->where('category', $id)->delete();
+          echo "Data Deleted Successfully";
+
+
     }
 }
