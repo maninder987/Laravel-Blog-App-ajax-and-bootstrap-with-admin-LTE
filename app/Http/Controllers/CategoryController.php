@@ -9,7 +9,7 @@ use App\Category;
 use Session;
 
 use Illuminate\Support\Facades\Input;
-
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class CategoryController extends Controller
@@ -31,7 +31,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $allcategories = Category::all();
+        $user_id = Auth::user()->id;
+        //$post = DB::table('posts')->where('author', $user_id)->get();
+        $allcategories = Category::where('author', $user_id)->get();
+
+       
         return view('admin.category.updatecategory')->with('categories',$allcategories);
     }
 
@@ -43,13 +47,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
-         if ((Category::where('category', '=', $request->category))->count() > 0){
+        if((Category::where(['category' => $request->category,'author'=>$request->author]))->count()>0){
               echo "<span class='alert alert-danger'>Category Already Exists</span>";
          }else{
                $categoryHandler = new Category;
                $categoryHandler->category = $request->category;
                $categoryHandler->token = $request->_token;
+               $categoryHandler->author = $request->author; 
                $categoryHandler->save();
 
                if($categoryHandler->save()){

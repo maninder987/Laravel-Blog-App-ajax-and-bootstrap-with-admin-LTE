@@ -14,14 +14,16 @@ $(document).ready(function(){
 
           var category = $("#cat_field").val();
           var token = $("#token").val();
-
-          if(category == '' || token == ''){
+          var author = $("#authorid").attr('data');
+          
+          if(category == '' || author == ''){
             $(".output").html("<span class='alert alert-danger'>Field Is Empty</span>");
           }else{
              $.ajax({
                 type: "post",
                 data: {'category':category,
-                       '_token': token
+                       '_token': token,
+                       'author':author
                       },
                 success: function(data) {
                     $(".output").html("<span class='alert alert-success'>"+data+"</span>")
@@ -147,5 +149,85 @@ $(document).ready(function(){
       //console.log(imgName+token);dataType:"JSON",
     });
 
+     $(".edit").click(function(){
+        var id =  $(this).parent().siblings().find(".id_displayed").attr('data');
+        var pic =  $(this).parent().siblings().find(".id_picture").attr('src');
+        var category =  $(this).parent().siblings().find(".id_category").attr('data');
+        var tags =  $(this).parent().siblings().find(".id_tags").attr('data');
+        var title =  $(this).parent().siblings().find(".id_title").attr('data');
+        var content =  $(this).parent().siblings().find(".id_content").attr('data');
+        var author =  $(this).parent().siblings().find(".id_author").attr('data');
+        
+
+        $("#model_title").val(title);
+        $("#model_content").val(content);
+        $("#model_category").val(category);
+        $("#model_tags").val(tags);
+        $("#model_image_output").attr("src",pic);
+        
+
+
+
+
+
+      });
+
+
+
+
+
+
+
+
+      //inserting category in database
+     $('#tag_sender').click(function(e){
+          e.preventDefault();
+          var $form = $(this);
+
+          url = $form.attr('action');
+
+
+          var tag = $("#tag_field").val();
+          var token = $("#token").val();
+          var author = $("#authorid").attr('data');
+          
+          if(tag == '' || author == ''){
+            $(".output").html("<span class='alert alert-danger'>Field Is Empty</span>");
+          }else{
+             $.ajax({
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+                url:"/tag/store",///post/store
+                type: "post",
+                data: {'tags':tag,
+                       '_token': token,
+                       'author':author
+                      },
+                success: function(data) {
+                    $(".output").html("<span class='alert alert-success'>"+data+"</span>")
+                },
+                error: function(data) {
+                    $(".output").html("<span class='alert alert-danger'>"+data+"</span>");
+                }
+            });
+          }
+      });
 
 });
+
+
+
+    
+
+     
+
+
+
+
+
+
+
+
+
+

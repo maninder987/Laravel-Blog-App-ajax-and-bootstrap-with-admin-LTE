@@ -25,11 +25,20 @@
         'as'=>'home'
       ]);
 
+      Route::get("/test",[
+        'uses'=>'Auth\LoginController@handleProviderCallback',
+        'as'=>'test'
+      ]);
+
       Route::get('/blog',[
         'uses'=>'BlogController@index',
         'as'=>'blog'
       ]);
+      
 
+
+      Route::get('login/github', 'Auth\LoginController@redirectToProvider');
+      Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
 
 //'middleware' => 'admin'
 Route::group(['middleware' => 'auth'], function(){
@@ -51,6 +60,8 @@ Route::group(['middleware' => 'auth'], function(){
         'uses'=>'PostController@create',
         'as'=>'post.create'
       ]);
+
+      
 
 
       //route for adding form for new category
@@ -91,6 +102,25 @@ Route::group(['middleware' => 'auth'], function(){
       ]);
 
 
+
+      //adding tags
+      Route::get("/post/addtags",[
+        'uses'=>'TagController@index',
+        'as'=>'admin.addtags'
+      ]);
+
+
+      //processing tags form
+      Route::post('/tag/store',[
+        'uses'=>'TagController@store',
+        'as'=>'admin.datatag'
+      ]);
+
+      //displaying tags in edit page
+      Route::get("tag/create",[
+        'uses'=>'TagController@create',
+        'as'=>'admin.showtags'
+      ]);
 
 
  });

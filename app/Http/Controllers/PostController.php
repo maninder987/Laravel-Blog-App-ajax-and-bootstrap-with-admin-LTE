@@ -7,6 +7,12 @@ use App\Category;
 
 use App\Post;
 
+use App\User;
+
+use DB;
+
+use Illuminate\Support\Facades\Auth;
+
 use Validator;
 
 use Session;
@@ -25,7 +31,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
+        $user_id = Auth::user()->id;
+        $category = Category::where('author', $user_id)->get();
         return view('admin.post.addpost')->with('categories',$category);
     }
 
@@ -35,8 +42,15 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   $post = Post::all();
-        return view('admin.post.display')->with('posts',$post);
+    {   $user_id = Auth::user()->id;
+        //$post = DB::table('posts')->where('author', $user_id)->get();
+        $post = Post::with('category')->where('author', $user_id)->paginate(5);
+        //$post = Post::all();
+        $user = $post;
+        $category = Category::all();
+        return view('admin.post.display')->with('posts',$post)
+                                         ->with('categories',$category)
+                                         ->with('user',$user);
     }
 
     /**

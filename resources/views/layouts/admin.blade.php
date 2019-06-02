@@ -26,6 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('backend/bower_components/select2/dist/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('backend/plugins/iCheck/all.css') }}">
   <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/_all-skins.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('custom.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -273,7 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <ul class="sidebar-menu" data-widget="tree">
 
         <!-- Optionally, you can add icons to the links -->
-        <li><a href='#'>Dashboard</a></li>
+        <li><a href="{{ url('/home') }}">Dashboard</a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Posts</span>
             <span class="pull-right-container">
@@ -299,14 +300,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </li>
 
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Tabs</span>
+          <a href=""><i class="fa fa-link"></i> <span>Tags</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Add New Tab</a></li>
-            <li><a href="#">Edit / Delete Tabs</a></li>
+            <li><a href="{{ route('admin.addtags') }}">Add New Tag</a></li>
+            <li><a href="{{ route('admin.showtags') }}">Edit / Delete Tags</a></li>
           </ul>
         </li>
 
@@ -337,6 +338,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 @yield('content')
+
 <div class="container">
   <div class="col-md-10 col-md-offset-1">
     @include('inc.messages')
@@ -344,6 +346,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="output">
 
     </div>
+     
   </div>
 </div>
 

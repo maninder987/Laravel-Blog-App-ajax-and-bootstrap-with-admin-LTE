@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Post;
-
-class BlogController extends Controller
+use App\Tag;
+use Illuminate\Support\Facades\Auth;
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(3);
-        return view('blog')->with('posts',$posts);
+        return view('admin.tag.addtags');
     }
 
     /**
@@ -26,7 +25,9 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        $user_id = Auth::user()->id;
+        $alltags = Tag::where('author', $user_id)->get();
+        return view('admin.tag.edittags')->with('tags',$alltags);
     }
 
     /**
@@ -37,7 +38,32 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        
+        if((Tag::where(['tags' => $request->tags,'author'=>$request->author]))->count()>0){
+              echo "<span class='alert alert-danger'>Tag Already Exists</span>";
+        }else{
+
+                $validatedData = $request->validate([
+                    'tags' => 'required',
+                    'author' => 'required',
+                ]);
+                $handleTags = new Tag;
+                $handleTags->tags = $request->tags;
+                $handleTags->token = $request->_token;
+                $handleTags->author = $request->author;
+                $handleTags->save();
+
+                if($handleTags->save()){
+                    echo "<span class='alert alert-success'>Tag Has Been Added Successfully</span>";
+                }else{
+                    echo "<span class='alert alert-danger'>Failed ,Contact Admin</span>";
+                }
+
+        }
+
+
+
     }
 
     /**
