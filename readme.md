@@ -16,3 +16,8 @@
 
 ##Developer
 <a href="https://manu.86leaves.com" target='_blank'>Maninder Singh</a>
+
+##Forum
+<a href="https://86leaves.com" target='_blank'>Forum</a>
+
+
