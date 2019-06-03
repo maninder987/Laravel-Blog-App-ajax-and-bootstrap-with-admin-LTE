@@ -5,8 +5,14 @@
 ##Ajax ready admin
 <p>Everything adding , updating or deleting is ajax ready</p>
 <p>User can login using "Github login"</p>
+<p>Dashboard updates dynamically</p>
 
 
-## Demo Of Project
+
+## Demo Of Project / Installation Guide
 
 <a href="https://86leaves.com/knowledge-base/laravel-blog-app-ajax-and-bootstrap-with-admin-lte-free-download/" target='_blank'>Here is the demo</a>
+
+
+##Developer
+<a href="https://manu.86leaves.com" target='_blank'>Maninder Singh</a>
